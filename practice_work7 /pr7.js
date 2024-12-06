@@ -1,63 +1,30 @@
-type BaseProduct = {
-    id: number;
-    name: string;
-    price: number;
-    // Додайте інші базові поля
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
-    
-
-type Electronics = BaseProduct & {
-    category: "electronics";
-    warranty: string;
-  };
-  
-  // Специфічний тип для одягу
-  type Clothing = BaseProduct & {
-    category: "clothing";
-    size: string; 
-    material: string; 
-  };
-
 //Крок 2: Створення функцій для пошуку товарів
-
-
 // Знаходить товар за його ID.
 // products - Масив товарів, серед яких потрібно шукати.
 // id - Ідентифікатор товару для пошуку.
 // Повертає перший товар із відповідним ID або undefined, якщо товар не знайдено.
-const findProduct = <T extends BaseProduct>(products: T[], id: number): T | undefined => {
-    return products.find(product => product.id === id);
-  };
-  
-
-
-
+var findProduct = function (products, id) {
+    return products.find(function (product) { return product.id === id; });
+};
 // Фільтрує товари за максимальною ціною.
 // products - Масив товарів для фільтрації.
 // maxPrice - Максимальна допустима ціна.
 // Повертає новий масив товарів, ціна яких менша або дорівнює maxPrice.
-const filterByPrice = <T extends BaseProduct>(products: T[], maxPrice: number): T[] => {
-    return products.filter(product => product.price <= maxPrice);
-  };
-
-//Крок 3 Створення кошика
-type CartItem<T> = {
-    product: T;
-    quantity: number;
+var filterByPrice = function (products, maxPrice) {
+    return products.filter(function (product) { return product.price <= maxPrice; });
 };
-
-
-const addToCart = <T extends BaseProduct>(
-    cart: CartItem<T>[],
-    product: T,
-    quantity: number
-  ): CartItem<T>[] => {
-    return [...cart, { product, quantity }];
-  };
-
-
-  
-
+var addToCart = function (cart, product, quantity) {
+    return __spreadArray(__spreadArray([], cart, true), [{ product: product, quantity: quantity }], false);
+};
 // Розраховує загальну вартість кошика.
 // cart - Масив елементів кошика.
 // Функція використовує метод reduce для проходу по кожному елементу масиву cart.
@@ -65,31 +32,22 @@ const addToCart = <T extends BaseProduct>(
 // item - Поточний елемент масиву cart, що містить товар (product) і кількість (quantity).
 // Для кожного елемента обчислюється добуток ціни товару (item.product.price) на кількість (item.quantity),
 // і додається до total. В кінці функція повертає загальну суму.
-  const calculateTotal = <T extends BaseProduct>(cart: CartItem<T>[]): number => {
-    return cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
-  };
-
-  
-
+var calculateTotal = function (cart) {
+    return cart.reduce(function (total, item) { return total + item.product.price * item.quantity; }, 0);
+};
 //Крок 4: Використання функцій
-  const electronics: Electronics[] = [
+var electronics = [
     { id: 1, name: "Телефон", price: 2000, category: "electronics", warranty: "2 роки" }
-  ];
-  
-  const clothing: Clothing[] = [
+];
+var clothing = [
     { id: 2, name: "Сорочка", price: 1400, category: "clothing", size: "M", material: "Cotton" }
-  ];
-  
- 
-  const phone = findProduct(electronics, 1);
-  console.log("Знайдений телефон:", phone);
-  
-  const cheapClothing = filterByPrice(clothing, 1400);
-  console.log("Дешевий одяг:", cheapClothing);
-  
-  const cart: CartItem<BaseProduct>[] = [];
-  const updatedCart = addToCart(cart, clothing[0], 2);
-  console.log("Оновлений кошик:", updatedCart);
-  
-  const total = calculateTotal(updatedCart);
-  console.log("Загальна вартість кошика:", total);
+];
+var phone = findProduct(electronics, 1);
+console.log("Знайдений телефон:", phone);
+var cheapClothing = filterByPrice(clothing, 1400);
+console.log("Дешевий одяг:", cheapClothing);
+var cart = [];
+var updatedCart = addToCart(cart, clothing[0], 2);
+console.log("Оновлений кошик:", updatedCart);
+var total = calculateTotal(updatedCart);
+console.log("Загальна вартість кошика:", total);
